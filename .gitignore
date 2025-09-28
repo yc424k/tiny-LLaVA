@@ -61,4 +61,4 @@ checkpoints/*
 scripts/.ipynb_checkpoints/*
 test/*
 output/*
-datasets/*
+dataset/*
