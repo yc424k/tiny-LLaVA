@@ -16,6 +16,11 @@ class ModelArguments:
     vision_tower: Optional[str] = field(default='')
     vision_tower2: Optional[str] = field(default='')
     connector_type: str = field(default='linear')
+    sensor_encoder_type: Optional[str] = field(default=None)
+    sensor_feature_dim: Optional[int] = field(default=None)
+    sensor_token_length: int = field(default=1)
+    sensor_dropout: float = field(default=0.0)
+    sensor_attention_heads: int = field(default=8)
     
     mm_vision_select_layer: Optional[int] = field(default=-1)  # default to the last layer
     mm_patch_merge_type: Optional[str] = field(default='flat')
@@ -43,6 +48,11 @@ class DataArguments:
     image_folder: Optional[str] = field(default=None)
     image_aspect_ratio: str = 'square'
     conv_version: str = 'pretrain'
+    sensor_field: Optional[str] = field(default=None,
+                                        metadata={"help": "Key name for sensor payload within a sample."})
+    use_dummy_image: bool = False
+    dummy_image_path: Optional[str] = field(default=None,
+                                            metadata={"help": "Path to a fallback image used when samples lack images."})
 
 
 @dataclass
@@ -77,6 +87,7 @@ class TrainingArguments(transformers.TrainingArguments):
     group_by_modality_length: bool = field(default=False)
     vision_tower_lr: Optional[float] = None
     pretrained_model_path: Optional[str] = field(default=None)
+    tune_type_sensor: str = field(default="full")
     
     
     

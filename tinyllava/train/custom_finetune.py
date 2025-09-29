@@ -11,6 +11,7 @@ def load_settings(model_arguments, data_arguments, training_arguments):
     model_arguments.tune_type_connector = training_arguments.tune_type_connector
     model_arguments.tune_type_llm = training_arguments.tune_type_llm
     model_arguments.tune_type_vision_tower = training_arguments.tune_type_vision_tower
+    model_arguments.tune_type_sensor = training_arguments.tune_type_sensor
     model_arguments.image_aspect_ratio = data_arguments.image_aspect_ratio
 
 

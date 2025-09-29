@@ -18,12 +18,14 @@ def load_settings(model_arguments, data_arguments, training_arguments):
     model_arguments.tune_type_connector = training_arguments.tune_type_connector
     model_arguments.tune_type_llm = training_arguments.tune_type_llm
     model_arguments.tune_type_vision_tower = training_arguments.tune_type_vision_tower
+    model_arguments.tune_type_sensor = training_arguments.tune_type_sensor
     model_arguments.image_aspect_ratio = data_arguments.image_aspect_ratio
 
     model_args = {}
     model_args['llm'] = _load_llm_settings(model_arguments)
     model_args['vision_tower'] = _load_vision_settings(model_arguments)
     model_args['connector'] = _load_connector_settings(model_arguments) 
+    model_args['sensor_encoder'] = _load_sensor_settings(model_arguments)
     return model_args
 
 def _load_llm_settings(model_arguments):
@@ -44,6 +46,16 @@ def _load_connector_settings(model_arguments):
     connector_args = {}
     connector_args['connector_type'] = model_arguments.connector_type
     return connector_args
+
+
+def _load_sensor_settings(model_arguments):
+    sensor_args = {}
+    sensor_args['sensor_encoder_type'] = getattr(model_arguments, 'sensor_encoder_type', None)
+    sensor_args['sensor_feature_dim'] = getattr(model_arguments, 'sensor_feature_dim', None)
+    sensor_args['sensor_token_length'] = getattr(model_arguments, 'sensor_token_length', 1)
+    sensor_args['sensor_dropout'] = getattr(model_arguments, 'sensor_dropout', 0.0)
+    sensor_args['sensor_attention_heads'] = getattr(model_arguments, 'sensor_attention_heads', 8)
+    return sensor_args
 
 
 def train():
@@ -74,8 +86,12 @@ def train():
     model.config.use_cache = False
     model.config.image_aspect_ratio = data_arguments.image_aspect_ratio
     tokenizer = model.tokenizer
-    data_arguments.image_processor = model.vision_tower._image_processor
-    data_arguments.is_multimodal = True
+
+    image_processor = getattr(getattr(model, 'vision_tower', None), '_image_processor', None)
+    if image_processor is not None:
+        data_arguments.image_processor = image_processor
+    original_multimodal = getattr(data_arguments, 'is_multimodal', True)
+    data_arguments.is_multimodal = bool(original_multimodal)
     data_module = make_supervised_data_module(tokenizer=tokenizer,
                                               data_args=data_arguments)
     log_trainable_params(model)  # not work well with zero3

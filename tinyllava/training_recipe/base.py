@@ -16,6 +16,7 @@ class BaseTrainingRecipe:
         model.config.tune_type_connector = self.training_arguments.tune_type_connector
         model.config.tune_type_vision_tower = self.training_arguments.tune_type_vision_tower
         model.config.tune_type_llm = self.training_arguments.tune_type_llm
+        model.config.tune_type_sensor = getattr(self.training_arguments, 'tune_type_sensor', 'frozen')
         model.config.tune_vision_tower_from_layer = self.training_arguments.tune_vision_tower_from_layer
         return model
     
@@ -27,12 +28,15 @@ class BaseTrainingRecipe:
             model_args['llm'].update(dict(pretrained_llm_path=os.path.join(self.training_arguments.pretrained_model_path, 'language_model')))
             model_args['vision_tower'].update(dict(pretrained_vision_tower_path=os.path.join(self.training_arguments.pretrained_model_path, 'vision_tower')))
             model_args['connector'].update(dict(pretrained_connector_path=os.path.join(self.training_arguments.pretrained_model_path, 'connector')))
+            if 'sensor_encoder' in model_args and model_args['sensor_encoder'].get('sensor_encoder_type'):
+                model_args['sensor_encoder'].update(dict(pretrained_sensor_encoder_path=os.path.join(self.training_arguments.pretrained_model_path, 'sensor_encoder')))
         return model_args
             
     def tune_type_setting(self, model):
         model = self._llm_tune_type_setting(model)
         model = self._vision_tower_tune_type_setting(model)
         model = self._connector_tune_type_setting(model)
+        model = self._sensor_encoder_tune_type_setting(model)
         return model    
         
         
@@ -85,6 +89,16 @@ class BaseTrainingRecipe:
             for p in model.connector.parameters():
                 p.requires_grad = False
         return model
+
+    def _sensor_encoder_tune_type_setting(self, model):
+        if not hasattr(model, 'sensor_encoder') or model.sensor_encoder is None:
+            return model
+        tune_type = getattr(self.training_arguments, 'tune_type_sensor', 'frozen').lower()
+        assert tune_type in ('frozen', 'full'), f'tune_type {tune_type} not supported for sensor encoder!'
+        requires_grad = (tune_type == 'full')
+        for p in model.sensor_encoder.parameters():
+            p.requires_grad = requires_grad
+        return model
     
     
         
@@ -132,6 +146,13 @@ class BaseTrainingRecipe:
             os.makedirs(connector_output_dir, exist_ok=True)
             connector_output_path = os.path.join(self.training_arguments.output_dir, 'connector/pytorch_model.bin')
             torch.save(connector_state_dict, connector_output_path)
+        if hasattr(model, 'sensor_encoder') and model.sensor_encoder is not None:
+            sensor_state_dict = get_state_maybe_zero_3(model.sensor_encoder.named_parameters(), [''], False)
+            if trainer.args.local_rank == 0 or trainer.args.local_rank == -1:
+                sensor_output_dir = os.path.join(self.training_arguments.output_dir, 'sensor_encoder')
+                os.makedirs(sensor_output_dir, exist_ok=True)
+                sensor_output_path = os.path.join(sensor_output_dir, 'pytorch_model.bin')
+                torch.save(sensor_state_dict, sensor_output_path)
     
 
     def load(self, model, model_args={}):
@@ -139,6 +160,8 @@ class BaseTrainingRecipe:
             model.load_llm(**model_args['llm'])
             model.load_vision_tower(**model_args['vision_tower'])
             model.load_connector(**model_args['connector'])
+            if 'sensor_encoder' in model_args:
+                model.load_sensor_encoder(**model_args['sensor_encoder'])
         else:
             model.language_model = model.language_model.from_pretrained(model_args['llm']['model_name_or_path'],attn_implementation='flash_attention_2',torch_dtype=model_args['llm']['torch_dtype'])
             model.load_vision_tower(**model_args['vision_tower'])
@@ -150,6 +173,8 @@ class BaseTrainingRecipe:
             print('Merging LoRA weights...')
             model = model.merge_and_unload()
             print('Model is loaded...')
+            if 'sensor_encoder' in model_args:
+                model.load_sensor_encoder(**model_args['sensor_encoder'])
 
         return model
         

@@ -37,6 +37,11 @@ class TinyLlavaConfig(PretrainedConfig):
         tune_type_connector = 'frozen',
         tune_type_vision_tower = 'frozen',
         tune_vision_tower_from_layer = -1,
+        sensor_encoder_type = None,
+        sensor_feature_dim = None,
+        sensor_token_length = 1,
+        sensor_dropout = 0.0,
+        sensor_attention_heads = 8,
         
         **kwargs
 
@@ -50,6 +55,11 @@ class TinyLlavaConfig(PretrainedConfig):
         self.tune_type_connector = tune_type_connector
         self.tune_type_vision_tower = tune_type_vision_tower
         self.tune_vision_tower_from_layer = tune_vision_tower_from_layer
+        self.sensor_encoder_type = sensor_encoder_type
+        self.sensor_feature_dim = sensor_feature_dim
+        self.sensor_token_length = sensor_token_length
+        self.sensor_dropout = sensor_dropout
+        self.sensor_attention_heads = sensor_attention_heads
         
         self.ignore_index = IGNORE_INDEX
         self.image_token_index = IMAGE_TOKEN_INDEX
@@ -77,6 +87,11 @@ class TinyLlavaConfig(PretrainedConfig):
         self.vision_model_name_or_path = getattr(config, 'vision_tower',  '')
         self.vision_model_name_or_path2 = getattr(config, 'vision_tower2',  '')
         self.connector_type = getattr(config, 'connector_type',  None)
+        self.sensor_encoder_type = getattr(config, 'sensor_encoder_type', None)
+        self.sensor_feature_dim = getattr(config, 'sensor_feature_dim', None)
+        self.sensor_token_length = getattr(config, 'sensor_token_length', 1)
+        self.sensor_dropout = getattr(config, 'sensor_dropout', 0.0)
+        self.sensor_attention_heads = getattr(config, 'sensor_attention_heads', 8)
         self.vision_feature_layer = getattr(config, 'mm_vision_select_layer',  -2)
         self.vision_feature_select_strategy = getattr(config, 'mm_vision_select_feature',  "patch")
         self.image_aspect_ratio = getattr(config, 'image_aspect_ratio',  "pad")
@@ -130,4 +145,3 @@ class TinyLlavaConfig(PretrainedConfig):
         self.vision_config.model_name_or_path2 = self.vision_model_name_or_path2.split(':')[-1]
         self.vision_hidden_size = getattr(self.vision_config, 'hidden_size',  None)  
         
-

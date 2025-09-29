@@ -11,6 +11,7 @@ from transformers.modeling_outputs import CausalLMOutputWithPast
 from transformers.generation.utils import GenerateOutput
 
 from . import LLMFactory, ConnectorFactory, VisionTowerFactory
+from .sensor_encoder import SensorEncoderFactory
 from .configuration_tinyllava import TinyLlavaConfig
 from ..utils.constants import *
 # from tinyllava.utils.data_utils import get_value_from_kwargs
@@ -63,6 +64,9 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
         self.language_model = LLMFactory(config.llm_model_name_or_path)[0](config.text_config)
         self.vision_tower = VisionTowerFactory(config.vision_model_name_or_path)(config.vision_config)
         self.connector = ConnectorFactory(config.connector_type)(config)
+        self.sensor_encoder = None
+        if getattr(config, 'sensor_encoder_type', None):
+            self.sensor_encoder = SensorEncoderFactory(config.sensor_encoder_type)(config)
 
         (Tokenizer, post_load) = LLMFactory(config.llm_model_name_or_path)[1]
         self.tokenizer = post_load(Tokenizer.from_pretrained(
@@ -72,6 +76,7 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
             padding_side = config.tokenizer_padding_side,
             use_fast = config.tokenizer_use_fast,
         ))
+        self._maybe_register_sensor_token()
         self.post_init()
 
     
@@ -118,6 +123,8 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
         output_hidden_states: Optional[bool] = None,
         images: Optional[torch.FloatTensor] = None,
         image_sizes: Optional[List[List[int]]] = None,
+        sensors: Optional[torch.FloatTensor] = None,
+        sensor_mask: Optional[torch.Tensor] = None,
         return_dict: Optional[bool] = None,
     ) -> Union[Tuple, CausalLMOutputWithPast]:
         use_cache = use_cache if use_cache is not None else self.config.use_cache
@@ -136,7 +143,9 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
                 past_key_values,
                 labels,
                 images,
-                image_sizes
+                image_sizes,
+                sensors,
+                sensor_mask,
             )
         return self.language_model.forward(
             input_ids=input_ids,
@@ -157,6 +166,8 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
         inputs: Optional[torch.Tensor] = None,
         images: Optional[torch.Tensor] = None,
         image_sizes: Optional[torch.Tensor] = None,
+        sensors: Optional[torch.Tensor] = None,
+        sensor_mask: Optional[torch.Tensor] = None,
         **kwargs,
     ) -> Union[GenerateOutput, torch.LongTensor]:
         position_ids = kwargs.pop("position_ids", None)
@@ -164,7 +175,7 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
         if "inputs_embeds" in kwargs:
             raise NotImplementedError("`inputs_embeds` is not supported")
 
-        if images is not None:
+        if images is not None or sensors is not None:
             (
                 inputs,
                 position_ids,
@@ -179,7 +190,9 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
                 None,
                 None,
                 images,
-                image_sizes=image_sizes
+                image_sizes=image_sizes,
+                sensors=sensors,
+                sensor_mask=sensor_mask,
             )
         else:
             inputs_embeds = self.language_model.get_input_embeddings()(inputs)
@@ -199,13 +212,28 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
         image_features = self.vision_tower(images, **kwargs)
         image_features = self.connector(image_features)
         return image_features
-    
-    
-    
+
+    def encode_sensors(self, sensors, sensor_mask=None):
+        if self.sensor_encoder is None or sensors is None:
+            return None
+        sensor_input = sensors
+        if isinstance(sensors, torch.Tensor):
+            sensor_input = sensors.to(device=self.device, dtype=self.dtype)
+        if sensor_mask is not None and isinstance(sensor_mask, torch.Tensor):
+            sensor_mask = sensor_mask.to(device=self.device)
+        sensor_features = self.sensor_encoder(sensor_input, sensor_mask=sensor_mask)
+        if sensor_features.dim() == 2:
+            sensor_features = sensor_features.unsqueeze(1)
+        return sensor_features
+
+
+
     def prepare_inputs_for_generation(self, input_ids, past_key_values=None,
                                       inputs_embeds=None, **kwargs):
         images = kwargs.pop("images", None)
         image_sizes = kwargs.pop("image_sizes", None)
+        sensors = kwargs.pop("sensors", None)
+        sensor_mask = kwargs.pop("sensor_mask", None)
         inputs = self.language_model.prepare_inputs_for_generation(
             input_ids, past_key_values=past_key_values, inputs_embeds=inputs_embeds, **kwargs
         )
@@ -213,27 +241,42 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
             inputs['images'] = images
         if image_sizes is not None:
             inputs['image_sizes'] = image_sizes
+        if sensors is not None:
+            inputs['sensors'] = sensors
+        if sensor_mask is not None:
+            inputs['sensor_mask'] = sensor_mask
         return inputs
+
+    def _maybe_register_sensor_token(self):
+        if DEFAULT_SENSOR_TOKEN is None:
+            return
+        tokenizer_vocab = self.tokenizer.get_vocab()
+        if DEFAULT_SENSOR_TOKEN in tokenizer_vocab:
+            return
+        self.tokenizer.add_special_tokens({"additional_special_tokens": [DEFAULT_SENSOR_TOKEN]})
+        self.resize_token_embeddings(len(self.tokenizer))
         
     def prepare_inputs_labels_for_multimodal(
         self, input_ids, position_ids, attention_mask, past_key_values, labels,
-        images, image_sizes=None
+        images, image_sizes=None, sensors=None, sensor_mask=None
     ):
-        vision_tower = self.vision_tower
-        if vision_tower is None or images is None or input_ids.shape[1] == 1:
+        if input_ids.shape[1] == 1:
             return input_ids, position_ids, attention_mask, past_key_values, None, labels
 
-        
-        image_features = self.encode_images(images)
+        image_features = None
+        if self.vision_tower is not None and images is not None:
+            image_features = self.encode_images(images)
 
-        # TODO: image start / end is not implemented here to support pretraining.
+        sensor_features = None
+        if self.sensor_encoder is not None and sensors is not None:
+            sensor_features = self.encode_sensors(sensors, sensor_mask)
+
+        if image_features is None and sensor_features is None:
+            return input_ids, position_ids, attention_mask, past_key_values, None, labels
+
         if getattr(self.config, 'tune_mm_mlp_adapter', False):
             raise NotImplementedError
 
-        # Let's just add dummy tensors if they do not exist,
-        # it is a headache to deal with None all the time.
-        # But it is not ideal, and if you have a better idea,
-        # please open an issue / submit a PR, thanks.
         _labels = labels
         _position_ids = position_ids
         _attention_mask = attention_mask
@@ -246,53 +289,71 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
         if labels is None:
             labels = torch.full_like(input_ids, IGNORE_INDEX)
 
-        # remove the padding using attention_mask -- FIXME
-        _input_ids = input_ids
         input_ids = [cur_input_ids[cur_attention_mask] for cur_input_ids, cur_attention_mask in zip(input_ids, attention_mask)]
         labels = [cur_labels[cur_attention_mask] for cur_labels, cur_attention_mask in zip(labels, attention_mask)]
 
+        embedding_table = self.language_model.get_input_embeddings()
         new_input_embeds = []
         new_labels = []
-        cur_image_idx = 0
+        sensor_usage = None
+        if sensor_features is not None:
+            sensor_usage = [0] * sensor_features.shape[0]
+
         for batch_idx, cur_input_ids in enumerate(input_ids):
-            num_images = (cur_input_ids == IMAGE_TOKEN_INDEX).sum()
-            if num_images == 0:
-                cur_image_features = image_features[cur_image_idx]
-                cur_input_embeds_1 = self.language_model.get_input_embeddings()(cur_input_ids)
-                cur_input_embeds = torch.cat([cur_input_embeds_1, cur_image_features[0:0]], dim=0)
-                new_input_embeds.append(cur_input_embeds)
-                new_labels.append(labels[batch_idx])
-                cur_image_idx += 1
+            cur_labels = labels[batch_idx]
+            placeholders = torch.where((cur_input_ids == IMAGE_TOKEN_INDEX) | (cur_input_ids == SENSOR_TOKEN_INDEX))[0]
+
+            if placeholders.numel() == 0:
+                token_embeds = embedding_table(cur_input_ids)
+                new_input_embeds.append(token_embeds)
+                new_labels.append(cur_labels)
                 continue
 
-            image_token_indices = [-1] + torch.where(cur_input_ids == IMAGE_TOKEN_INDEX)[0].tolist() + [cur_input_ids.shape[0]]
-            cur_input_ids_noim = []
-            cur_labels = labels[batch_idx]
-            cur_labels_noim = []
-            for i in range(len(image_token_indices) - 1):
-                cur_input_ids_noim.append(cur_input_ids[image_token_indices[i]+1:image_token_indices[i+1]])
-                cur_labels_noim.append(cur_labels[image_token_indices[i]+1:image_token_indices[i+1]])
-            split_sizes = [x.shape[0] for x in cur_labels_noim]
-            cur_input_embeds = self.language_model.get_input_embeddings()(torch.cat(cur_input_ids_noim))
-            cur_input_embeds_no_im = torch.split(cur_input_embeds, split_sizes, dim=0)
-            cur_new_input_embeds = []
+            cur_new_embeds = []
             cur_new_labels = []
+            last_pos = 0
 
-            for i in range(num_images + 1):
-                cur_new_input_embeds.append(cur_input_embeds_no_im[i])
-                cur_new_labels.append(cur_labels_noim[i])
-                if i < num_images:
-                    cur_image_features = image_features[cur_image_idx]
-                    cur_image_idx += 1
-                    cur_new_input_embeds.append(cur_image_features)
+            for pos in placeholders.tolist():
+                if pos > last_pos:
+                    seg_ids = cur_input_ids[last_pos:pos]
+                    if seg_ids.numel() > 0:
+                        seg_embeds = embedding_table(seg_ids)
+                        seg_labels = cur_labels[last_pos:pos]
+                        cur_new_embeds.append(seg_embeds)
+                        cur_new_labels.append(seg_labels)
+
+                placeholder_id = cur_input_ids[pos].item()
+                if placeholder_id == IMAGE_TOKEN_INDEX:
+                    if image_features is None:
+                        raise ValueError('Image features are required but not provided.')
+                    cur_image_features = image_features[batch_idx]
+                    cur_new_embeds.append(cur_image_features)
                     cur_new_labels.append(torch.full((cur_image_features.shape[0],), IGNORE_INDEX, device=cur_labels.device, dtype=cur_labels.dtype))
+                elif placeholder_id == SENSOR_TOKEN_INDEX:
+                    if sensor_features is None:
+                        raise ValueError('Sensor features are required but not provided.')
+                    if sensor_usage is None:
+                        sensor_usage = [0] * sensor_features.shape[0]
+                    if sensor_usage[batch_idx] >= 1:
+                        raise ValueError('Multiple <sensor> tokens per sample are not supported yet.')
+                    cur_sensor_features = sensor_features[batch_idx]
+                    sensor_usage[batch_idx] += 1
+                    cur_new_embeds.append(cur_sensor_features)
+                    cur_new_labels.append(torch.full((cur_sensor_features.shape[0],), IGNORE_INDEX, device=cur_labels.device, dtype=cur_labels.dtype))
+                last_pos = pos + 1
 
-            cur_new_input_embeds = [x.to(self.device) for x in cur_new_input_embeds]
+            if last_pos < cur_input_ids.shape[0]:
+                seg_ids = cur_input_ids[last_pos:]
+                seg_embeds = embedding_table(seg_ids)
+                seg_labels = cur_labels[last_pos:]
+                cur_new_embeds.append(seg_embeds)
+                cur_new_labels.append(seg_labels)
 
-            cur_new_input_embeds = torch.cat(cur_new_input_embeds)
-            cur_new_labels = torch.cat(cur_new_labels)
+            cur_new_embeds = [tensor.to(self.device) for tensor in cur_new_embeds]
+            cur_new_embeds = torch.cat(cur_new_embeds) if cur_new_embeds else torch.empty(0, embedding_table.embedding_dim, device=self.device)
+            cur_new_labels = torch.cat(cur_new_labels) if cur_new_labels else torch.empty(0, dtype=cur_labels.dtype, device=cur_labels.device)
 
-            new_input_embeds.append(cur_new_input_embeds)
+            new_input_embeds.append(cur_new_embeds)
             new_labels.append(cur_new_labels)
 
         # Truncate sequences to max length as image embeddings can make the sequence longer
@@ -377,6 +438,10 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
         
     def load_connector(self, **kwargs):
         self.connector.load_model(**kwargs)
+
+    def load_sensor_encoder(self, **kwargs):
+        if self.sensor_encoder is not None:
+            self.sensor_encoder.load_model(**kwargs)
 
             
 

@@ -19,7 +19,15 @@ MODEL_MAX_LENGTH="$9"
 VT_VARIANT="${VT_VERSION#*/}"
 LLM_VARIANT="${LLM_VERSION#*/}"
 
-deepspeed --include localhost:0,1 --master_port 29503 tinyllava/train/train.py \
+NUM_GPUS=${NUM_GPUS:-1}
+MASTER_PORT=${MASTER_PORT:-29503}
+TRAIN_BATCH=${TRAIN_BATCH:-2}
+GRAD_ACCUM=${GRAD_ACCUM:-16}
+EVAL_BATCH=${EVAL_BATCH:-2}
+DATALOADER_WORKERS=${DATALOADER_WORKERS:-2}
+REPORT_BACKEND=${REPORT_BACKEND:-tensorboard}
+
+deepspeed --num_gpus $NUM_GPUS --master_port $MASTER_PORT tinyllava/train/train.py \
     --deepspeed ./scripts/zero3.json \
     --data_path  $DATA_PATH\
     --image_folder $IMAGE_PATH \
@@ -38,11 +46,11 @@ deepspeed --include localhost:0,1 --master_port 29503 tinyllava/train/train.py \
     --tune_type_vision_tower frozen \
     --tune_vision_tower_from_layer 0 \
     --tune_type_connector full \
-    --output_dir /mnt/data/sata/yinghu/checkpoints/llava_factory/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
+    --output_dir /home/yc424k/TinyLLaVA_Factory/checkpoints/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
     --num_train_epochs 1 \
-    --per_device_train_batch_size 64 \
-    --per_device_eval_batch_size 4 \
-    --gradient_accumulation_steps 2 \
+    --per_device_train_batch_size $TRAIN_BATCH \
+    --per_device_eval_batch_size $EVAL_BATCH \
+    --gradient_accumulation_steps $GRAD_ACCUM \
     --evaluation_strategy "no" \
     --save_strategy "steps" \
     --save_steps 24000 \
@@ -55,8 +63,8 @@ deepspeed --include localhost:0,1 --master_port 29503 tinyllava/train/train.py \
     --tf32 False \
     --model_max_length $MODEL_MAX_LENGTH \
     --gradient_checkpointing True \
-    --dataloader_num_workers 8 \
+    --dataloader_num_workers $DATALOADER_WORKERS \
     --lazy_preprocess True \
-    --report_to tensorboard \
+    --report_to $REPORT_BACKEND \
     --tokenizer_use_fast False \
     --run_name tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain

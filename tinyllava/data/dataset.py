@@ -1,7 +1,7 @@
 import copy
 from dataclasses import dataclass
 import json
-from typing import Dict,  Sequence, TYPE_CHECKING
+from typing import Dict, Sequence, TYPE_CHECKING
 from PIL import Image, ImageFile
 import os
 
@@ -33,6 +33,15 @@ class LazySupervisedDataset(Dataset):
         self.data_args = data_args
         self.text_preprocess = TextPreprocess(tokenizer, data_args.conv_version)
         self.image_preprocess = ImagePreprocess(data_args.image_processor, data_args)
+        self.sensor_field = getattr(data_args, 'sensor_field', None)
+        if self.sensor_field is None and len(self.list_data_dict) > 0:
+            if 'sensor' in self.list_data_dict[0]:
+                self.sensor_field = 'sensor'
+            elif 'sensor_data' in self.list_data_dict[0]:
+                self.sensor_field = 'sensor_data'
+        self.use_dummy_image = getattr(data_args, 'use_dummy_image', False)
+        self.dummy_image_path = getattr(data_args, 'dummy_image_path', None)
+        self._dummy_image_tensor = None
 
     def __len__(self):
         return len(self.list_data_dict)
@@ -64,11 +73,67 @@ class LazySupervisedDataset(Dataset):
             image = self.image_preprocess(image)
             data_dict['image'] = image
         elif self.data_args.is_multimodal:
-            # image does not exist in the data, but the model is multimodal
-            # print(f'{i}:{sources}')
-            crop_size = getattr(self.data_args.image_processor, 'crop_size', getattr(self.data_args.image_processor, 'size'))
-            data_dict['image'] = torch.zeros(3, crop_size['height'], crop_size['width'])
+            if self.use_dummy_image:
+                data_dict['image'] = self._get_dummy_image_tensor()
+            else:
+                crop_size = getattr(self.data_args.image_processor, 'crop_size', getattr(self.data_args.image_processor, 'size'))
+                if isinstance(crop_size, dict):
+                    height = crop_size.get('height', 224)
+                    width = crop_size.get('width', height)
+                elif isinstance(crop_size, (list, tuple)):
+                    if len(crop_size) >= 2:
+                        height, width = crop_size[0], crop_size[1]
+                    else:
+                        height = width = crop_size[0]
+                else:
+                    height = width = crop_size if crop_size is not None else 224
+                data_dict['image'] = torch.zeros(3, height, width)
+
+        if self.sensor_field and self.sensor_field in sources:
+            data_dict['sensor'] = copy.deepcopy(sources[self.sensor_field])
         return data_dict
+
+    def _get_dummy_image_tensor(self):
+        if self._dummy_image_tensor is not None:
+            return self._dummy_image_tensor
+
+        if self.dummy_image_path:
+            dummy_image = Image.open(self.dummy_image_path).convert('RGB')
+        else:
+            dummy_image = self._create_blank_image()
+
+        self._dummy_image_tensor = self.image_preprocess(dummy_image)
+        return self._dummy_image_tensor
+
+    def _create_blank_image(self):
+        processor = getattr(self.image_preprocess, 'image_processor', None)
+        width = height = 224
+        if processor is not None:
+            crop_size = getattr(processor, 'crop_size', None)
+            if isinstance(crop_size, dict):
+                height = crop_size.get('height', crop_size.get('shortest_edge', height))
+                width = crop_size.get('width', crop_size.get('shortest_edge', height))
+            elif isinstance(crop_size, (list, tuple)):
+                if len(crop_size) >= 2:
+                    height, width = crop_size[0], crop_size[1]
+                elif len(crop_size) == 1:
+                    height = width = crop_size[0]
+            else:
+                size = getattr(processor, 'size', None)
+                if isinstance(size, dict):
+                    height = size.get('height', size.get('shortest_edge', height))
+                    width = size.get('width', size.get('shortest_edge', height))
+                elif isinstance(size, (list, tuple)):
+                    if len(size) >= 2:
+                        height, width = size[0], size[1]
+                    elif len(size) == 1:
+                        height = width = size[0]
+                elif isinstance(size, int):
+                    height = width = size
+
+        width = int(width)
+        height = int(height)
+        return Image.new('RGB', (max(width, 1), max(height, 1)), color=(0, 0, 0))
 
 
 @dataclass
@@ -112,6 +177,28 @@ class DataCollatorForSupervisedDataset(object):
                 batch['images'] = torch.stack(images)
             else:
                 batch['images'] = images
+
+        if any('sensor' in instance for instance in instances):
+            sensors = [instance.get('sensor') for instance in instances]
+            if sensors and torch.is_tensor(sensors[0]):
+                lengths = []
+                tensor_sensors = []
+                for sensor in sensors:
+                    if sensor is None:
+                        sensor = torch.zeros(1, dtype=torch.float32)
+                    if sensor.dtype != torch.float32:
+                        sensor = sensor.to(torch.float32)
+                    tensor_sensors.append(sensor)
+                    lengths.append(sensor.shape[0])
+                padded_sensors = torch.nn.utils.rnn.pad_sequence(tensor_sensors, batch_first=True)
+                sensor_mask = torch.zeros(padded_sensors.shape[:2], dtype=torch.bool)
+                for idx, length in enumerate(lengths):
+                    if length > 0:
+                        sensor_mask[idx, :length] = True
+                batch['sensors'] = padded_sensors
+                batch['sensor_mask'] = sensor_mask
+            else:
+                batch['sensors'] = sensors
 
         return batch
 

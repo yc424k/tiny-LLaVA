@@ -1,6 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Dict, List, Optional, Sequence, Tuple, Union
 import copy
+import re
 
 from .formatter import EmptyFormatter, StringFormatter
 from .formatter import Formatter
@@ -18,6 +19,7 @@ class Template:
     format_assistant: "Formatter"
     system: "Formatter"
     separator: "Formatter"
+    format_sensor_token: "Formatter" = field(default_factory=lambda: StringFormatter(slot=f"{DEFAULT_SENSOR_TOKEN}\n{{content}}"))
     
     def encode(self, messages, tokenizer, mode='train'):
         """
@@ -83,9 +85,7 @@ class Template:
         for i, (question, answer) in enumerate(zip(question_list, answer_list)):
             if i == 0:
                 msg += self.system.apply()
-            if DEFAULT_IMAGE_TOKEN in question:
-                question = question.replace(DEFAULT_IMAGE_TOKEN, '').strip()
-                question = self.format_image_token.apply(content=question).strip()
+            question = self._inject_modal_tokens(question)
             msg += self.format_user.apply(content=question)
             msg += self.format_assistant.apply(content=answer)
         return msg
@@ -134,19 +134,38 @@ class Template:
         return labels, cur_len
         
     @classmethod    
-    def tokenizer_image_token(cls, prompt, tokenizer, image_token_index=IMAGE_TOKEN_INDEX, return_tensors=None):
-        def _insert_separator(X, sep):
-            return [ele for sublist in zip(X, [sep]*len(X)) for ele in sublist][:-1]
-        prompt_chunks = [tokenizer(chunk).input_ids for chunk in prompt.split('<image>')]
+    def tokenizer_image_token(cls, prompt, tokenizer, image_token_index=IMAGE_TOKEN_INDEX, sensor_token_index=SENSOR_TOKEN_INDEX, return_tensors=None):
+        token_map = {
+            DEFAULT_IMAGE_TOKEN: image_token_index,
+            DEFAULT_SENSOR_TOKEN: sensor_token_index,
+        }
+        pattern_tokens = [re.escape(tok) for tok in token_map.keys()]
+        pattern = f"({'|'.join(pattern_tokens)})" if pattern_tokens else None
+
+        if pattern:
+            prompt_chunks = re.split(pattern, prompt)
+        else:
+            prompt_chunks = [prompt]
 
         input_ids = []
-        offset = 0
-        if len(prompt_chunks) > 0 and len(prompt_chunks[0]) > 0 and prompt_chunks[0][0] == tokenizer.bos_token_id:
-            offset = 1
-            input_ids.append(prompt_chunks[0][0])
+        first_segment = True
 
-        for x in _insert_separator(prompt_chunks, [image_token_index] * (offset + 1)):
-            input_ids.extend(x[offset:])
+        for chunk in prompt_chunks:
+            if chunk == "" or chunk is None:
+                continue
+            if chunk in token_map:
+                input_ids.append(token_map[chunk])
+                first_segment = False
+                continue
+            tokenized_chunk = tokenizer(chunk).input_ids
+            if not tokenized_chunk:
+                continue
+            if first_segment:
+                first_segment = False
+            else:
+                if tokenized_chunk[0] == tokenizer.bos_token_id:
+                    tokenized_chunk = tokenized_chunk[1:]
+            input_ids.extend(tokenized_chunk)
 
         if return_tensors is not None:
             if return_tensors == 'pt':
@@ -154,7 +173,26 @@ class Template:
             raise ValueError(f'Unsupported tensor type: {return_tensors}')
         return input_ids
 
+    def _inject_modal_tokens(self, question: str) -> str:
+        token_formatters = {
+            DEFAULT_IMAGE_TOKEN: getattr(self, 'format_image_token', None),
+            DEFAULT_SENSOR_TOKEN: getattr(self, 'format_sensor_token', None),
+        }
+        pattern_tokens = [re.escape(tok) for tok, fmt in token_formatters.items() if fmt is not None]
+        if not pattern_tokens:
+            return question
 
-
+        pattern = f"({'|'.join(pattern_tokens)})"
+        parts = re.split(pattern, question)
+        rebuilt = []
+        for part in parts:
+            if part == "" or part is None:
+                continue
+            formatter = token_formatters.get(part)
+            if formatter is not None:
+                rebuilt.append(formatter.apply(content=""))
+            else:
+                rebuilt.append(part)
+        return ''.join(rebuilt)
 
 
