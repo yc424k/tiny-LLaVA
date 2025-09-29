@@ -62,3 +62,4 @@ scripts/.ipynb_checkpoints/*
 test/*
 output/*
 dataset/*
+dataset.*
