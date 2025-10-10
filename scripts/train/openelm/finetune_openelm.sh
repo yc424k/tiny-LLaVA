@@ -19,11 +19,11 @@ MODEL_MAX_LENGTH="${10}"
 VT_VARIANT="${VT_VERSION#*/}"
 LLM_VARIANT="${LLM_VERSION#*/}"
 
-NUM_GPUS=${NUM_GPUS:-1}
+NUM_GPUS=${NUM_GPUS:-2}
 MASTER_PORT=${MASTER_PORT:-29503}
-TRAIN_BATCH=${TRAIN_BATCH:-1}
-GRAD_ACCUM=${GRAD_ACCUM:-16}
-EVAL_BATCH=${EVAL_BATCH:-1}
+TRAIN_BATCH=${TRAIN_BATCH:-16}
+GRAD_ACCUM=${GRAD_ACCUM:-4}
+EVAL_BATCH=${EVAL_BATCH:-2}
 DATALOADER_WORKERS=${DATALOADER_WORKERS:-2}
 REPORT_BACKEND=${REPORT_BACKEND:-tensorboard}
 
@@ -47,12 +47,12 @@ deepspeed --num_gpus $NUM_GPUS --master_port $MASTER_PORT tinyllava/train/train.
     --tune_vision_tower_from_layer 0 \
     --tune_type_connector full \
     --group_by_modality_length True \
-    --pretrained_model_path /home/yc424k/TinyLLaVA_Factory/checkpoints/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
-    --output_dir /home/yc424k/TinyLLaVA_Factory/checkpoints/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-finetune \
+    --pretrained_model_path /home/sihsch/tiny-LLaVA/checkpoints/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
+    --output_dir /home/sihsch/tiny-LLaVA/checkpoints/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-finetune \
     --num_train_epochs 1 \
-    --per_device_train_batch_size $TRAIN_BATCH \
-    --per_device_eval_batch_size $EVAL_BATCH \
-    --gradient_accumulation_steps $GRAD_ACCUM \
+    --per_device_train_batch_size 16 \
+    --per_device_eval_batch_size 4 \
+    --gradient_accumulation_steps 2 \
     --evaluation_strategy "no" \
     --save_strategy "steps" \
     --save_steps 50000 \
@@ -65,7 +65,7 @@ deepspeed --num_gpus $NUM_GPUS --master_port $MASTER_PORT tinyllava/train/train.
     --tf32 False \
     --model_max_length $MODEL_MAX_LENGTH \
     --gradient_checkpointing True \
-    --dataloader_num_workers $DATALOADER_WORKERS \
+    --dataloader_num_workers 8 \
     --lazy_preprocess True \
     --report_to $REPORT_BACKEND \
     --tokenizer_use_fast False \

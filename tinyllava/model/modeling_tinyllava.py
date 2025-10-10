@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Union
 import ast
+import os
 
 import torch
 import torch.utils.checkpoint
@@ -69,8 +70,12 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
             self.sensor_encoder = SensorEncoderFactory(config.sensor_encoder_type)(config)
 
         (Tokenizer, post_load) = LLMFactory(config.llm_model_name_or_path)[1]
+        tokenizer_source = config.tokenizer_name_or_path
+        config_path = getattr(config, "_name_or_path", None)
+        if config_path and os.path.isdir(config_path):
+            tokenizer_source = config_path
         self.tokenizer = post_load(Tokenizer.from_pretrained(
-            config.tokenizer_name_or_path,
+            tokenizer_source,
             cache_dir = config.cache_dir,
             model_max_length = config.tokenizer_model_max_length,
             padding_side = config.tokenizer_padding_side,
@@ -417,13 +422,51 @@ class TinyLlavaForConditionalGeneration(TinyLlavaPreTrainedModel):
         pretrained_llm_path = get_value_from_kwargs(kwargs, 'pretrained_llm_path')
         if pretrained_llm_path is not None:
             language_model_name = pretrained_llm_path
+        load_kwargs = dict(kwargs)
+        tokenizer_length = len(self.tokenizer)
+        embed_state_dict = None
+        embed_key = None
+        if language_model_name is not None and os.path.isdir(language_model_name):
+            candidate_files = [
+                os.path.join(language_model_name, "pytorch_model.bin"),
+                os.path.join(language_model_name, "model.safetensors"),
+            ]
+            weight_file = next((f for f in candidate_files if os.path.exists(f)), None)
+            if weight_file is not None and weight_file.endswith(".bin"):
+                embed_state_dict = torch.load(weight_file, map_location="cpu")
+            elif weight_file is not None and weight_file.endswith(".safetensors"):
+                from safetensors.torch import load_file
+                embed_state_dict = load_file(weight_file)
+            if embed_state_dict is not None:
+                possible_keys = [
+                    "transformer.token_embeddings.weight",
+                    "model.embed_tokens.weight",
+                    "lm_head.weight",
+                ]
+                embed_key = next((k for k in possible_keys if k in embed_state_dict), None)
+                if embed_key is not None:
+                    ckpt_vocab = embed_state_dict[embed_key].shape[0]
+                    if ckpt_vocab != tokenizer_length:
+                        vocab_diff = tokenizer_length - ckpt_vocab
+                        if vocab_diff > 0:
+                            std = getattr(self.language_model.config, "initializer_range", 0.02)
+                            pad = embed_state_dict[embed_key].new_empty((vocab_diff, embed_state_dict[embed_key].shape[1]))
+                            torch.nn.init.normal_(pad, mean=0.0, std=std)
+                            embed_state_dict[embed_key] = torch.cat([embed_state_dict[embed_key], pad], dim=0)
+                        else:
+                            embed_state_dict[embed_key] = embed_state_dict[embed_key][:tokenizer_length]
+                        load_kwargs["state_dict"] = embed_state_dict
         if language_model_name is not None:
             self.language_model = self.language_model.from_pretrained(
-                language_model_name, **kwargs
+                language_model_name, **load_kwargs
             )
         print('loading language model from ', language_model_name)
+        # Resize embeddings if tokenizer picked up extra special tokens (e.g. <sensor>)
+        lm_vocab_size = self.language_model.get_input_embeddings().weight.size(0)
+        if tokenizer_length != lm_vocab_size:
+            self.language_model.resize_token_embeddings(tokenizer_length)
         self.language_model.requires_grad_(False)
-        
+
         self.config.text_config.torch_dtype = kwargs.get('torch_dtype', None)
         self.config.pad_token = getattr(self.tokenizer, 'pad_token', None)
         self.config.pad_token_id = getattr(self.tokenizer, 'pad_token_id', None)

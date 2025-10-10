@@ -9,7 +9,16 @@ class SIGLIPVisionTower(VisionTower):
     def __init__(self, cfg):
         super().__init__(cfg)
         self._vision_tower = SiglipVisionModel(cfg)
-        self._image_processor = SiglipImageProcessor.from_pretrained(cfg.model_name_or_path)
+        try:
+            self._image_processor = SiglipImageProcessor.from_pretrained(cfg.model_name_or_path)
+        except Exception:
+            size = getattr(cfg, 'image_size', 384)
+            self._image_processor = SiglipImageProcessor(
+                size={"shortest_edge": size},
+                crop_size={"height": size, "width": size},
+                image_mean=[0.5, 0.5, 0.5],
+                image_std=[0.5, 0.5, 0.5],
+            )
         
         
 #    def forward(self, x, **kwargs):

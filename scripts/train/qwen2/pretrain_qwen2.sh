@@ -19,7 +19,7 @@ MODEL_MAX_LENGTH="$9"
 VT_VARIANT="${VT_VERSION#*/}"
 LLM_VARIANT="${LLM_VERSION#*/}"
 
-deepspeed --include localhost:0,1,2,3,4,5,6,7 --master_port 29501 tinyllava/train/train.py \
+deepspeed --include localhost:0,1 --master_port 29501 tinyllava/train/train.py \
     --deepspeed ./scripts/zero3.json \
     --data_path  $DATA_PATH\
     --image_folder $IMAGE_PATH \
@@ -38,7 +38,7 @@ deepspeed --include localhost:0,1,2,3,4,5,6,7 --master_port 29501 tinyllava/trai
     --tune_type_vision_tower frozen \
     --tune_vision_tower_from_layer 0 \
     --tune_type_connector full \
-    --output_dir /mnt/data/sata/yinghu/checkpoints/llava_factory/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
+    --output_dir /home/sihsch/tiny-LLaVA/checkpoints/llava_factory/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
     --num_train_epochs 1 \
     --per_device_train_batch_size 16 \
     --per_device_eval_batch_size 4 \

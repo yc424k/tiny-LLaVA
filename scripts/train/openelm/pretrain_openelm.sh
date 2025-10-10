@@ -19,12 +19,12 @@ MODEL_MAX_LENGTH="$9"
 VT_VARIANT="${VT_VERSION#*/}"
 LLM_VARIANT="${LLM_VERSION#*/}"
 
-NUM_GPUS=${NUM_GPUS:-1}
+NUM_GPUS=${NUM_GPUS:-2}
 MASTER_PORT=${MASTER_PORT:-29503}
-TRAIN_BATCH=${TRAIN_BATCH:-2}
-GRAD_ACCUM=${GRAD_ACCUM:-16}
+TRAIN_BATCH=${TRAIN_BATCH:-64}
+GRAD_ACCUM=${GRAD_ACCUM:-4}
 EVAL_BATCH=${EVAL_BATCH:-2}
-DATALOADER_WORKERS=${DATALOADER_WORKERS:-2}
+DATALOADER_WORKERS=${DATALOADER_WORKERS:-8}
 REPORT_BACKEND=${REPORT_BACKEND:-tensorboard}
 
 deepspeed --num_gpus $NUM_GPUS --master_port $MASTER_PORT tinyllava/train/train.py \
@@ -46,7 +46,7 @@ deepspeed --num_gpus $NUM_GPUS --master_port $MASTER_PORT tinyllava/train/train.
     --tune_type_vision_tower frozen \
     --tune_vision_tower_from_layer 0 \
     --tune_type_connector full \
-    --output_dir /home/yc424k/TinyLLaVA_Factory/checkpoints/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
+    --output_dir /home/sihsch/tiny-LLaVA/checkpoints/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
     --num_train_epochs 1 \
     --per_device_train_batch_size $TRAIN_BATCH \
     --per_device_eval_batch_size $EVAL_BATCH \

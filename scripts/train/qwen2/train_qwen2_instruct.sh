@@ -3,7 +3,7 @@ FINETUNE_DATA_PATH=/home/ai/data/llava/dataset/text_files/llava_v1_5_mix665k.jso
 IMAGE_PATH=/home/ai/data/llava/dataset/llava/llava_pretrain/images #pretrain image dir
 FINETUNE_IMAGE_PATH=/home/ai/data/llava/dataset #finetune image dir
 
-LLM_VERSION=Qwen/Qwen2-0.5B-Instruct # llm path in huggingface
+LLM_VERSION=Qwen/Qwen2-5-3B-Instruct # llm path in huggingface
 VT_VERSION=google/siglip-so400m-patch14-384 #vision tower path in huggingface
 VT_VERSION2="" #if you are not using mof vision tower, keep it empty
 CN_VERSION=mlp2x_gelu #connector type, other options are: qformer, resampler, etc

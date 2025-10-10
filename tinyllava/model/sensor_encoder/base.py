@@ -16,7 +16,8 @@ class SensorEncoder(nn.Module):
             return
         checkpoint_path = os.path.join(pretrained_sensor_encoder_path, 'pytorch_model.bin')
         if not os.path.exists(checkpoint_path):
-            raise FileNotFoundError(f"Sensor encoder checkpoint not found at {checkpoint_path}")
+            print(f"Sensor encoder checkpoint not found at {checkpoint_path}, initializing from scratch...")
+            return
         state_dict = torch.load(checkpoint_path, map_location='cpu')
         self.load_state_dict(state_dict)
         print(f'Loading sensor encoder from {checkpoint_path}...')

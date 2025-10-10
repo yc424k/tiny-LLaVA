@@ -124,11 +124,19 @@ class FusionSensorEncoder(SensorEncoder):
         theta_rel = _wrap_angle(theta - yaw)
         rel_input = torch.tensor([math.cos(theta_rel), math.sin(theta_rel)], device=device, dtype=dtype)
 
+        def run_mlp(mlp, tensor):
+            if tensor.dim() == 1:
+                tensor = tensor.unsqueeze(0)
+            output = mlp(tensor)
+            if output.dim() > 1:
+                output = output.squeeze(0)
+            return output
+
         tokens = torch.stack([
-            self.temp_mlp(temp_input),
-            self.hum_mlp(hum_input),
-            self.wind_mlp(wind_input),
-            self.imu_mlp(imu_input),
-            self.rel_mlp(rel_input),
+            run_mlp(self.temp_mlp, temp_input),
+            run_mlp(self.hum_mlp, hum_input),
+            run_mlp(self.wind_mlp, wind_input),
+            run_mlp(self.imu_mlp, imu_input),
+            run_mlp(self.rel_mlp, rel_input),
         ], dim=0)
         return tokens

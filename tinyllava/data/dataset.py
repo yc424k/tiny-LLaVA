@@ -3,6 +3,7 @@ from dataclasses import dataclass
 import json
 from typing import Dict, Sequence, TYPE_CHECKING
 from PIL import Image, ImageFile
+import glob
 import os
 
 from .text_preprocess import TextPreprocess
@@ -69,7 +70,15 @@ class LazySupervisedDataset(Dataset):
         if 'image' in sources:
             image_file = self.list_data_dict[i]['image']
             image_folder = self.data_args.image_folder
-            image = Image.open(os.path.join(image_folder, image_file)).convert('RGB')
+            image_path = os.path.join(image_folder, image_file)
+            if not os.path.isfile(image_path):
+                base, _ = os.path.splitext(image_path)
+                candidates = sorted(glob.glob(base + '.*'))
+                if candidates:
+                    image_path = candidates[0]
+                else:
+                    raise FileNotFoundError(f"Image file not found: {image_path}")
+            image = Image.open(image_path).convert('RGB')
             image = self.image_preprocess(image)
             data_dict['image'] = image
         elif self.data_args.is_multimodal:

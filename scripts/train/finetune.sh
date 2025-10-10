@@ -19,7 +19,7 @@ MODEL_MAX_LENGTH="${10}"
 VT_VARIANT="${VT_VERSION#*/}"
 LLM_VARIANT="${LLM_VERSION#*/}"
 
-NUM_GPUS=${NUM_GPUS:-1}
+NUM_GPUS=${NUM_GPUS:-2}
 MASTER_PORT=${MASTER_PORT:-29501}
 
 deepspeed --num_gpus $NUM_GPUS --master_port $MASTER_PORT tinyllava/train/train.py \
@@ -42,8 +42,8 @@ deepspeed --num_gpus $NUM_GPUS --master_port $MASTER_PORT tinyllava/train/train.
     --tune_vision_tower_from_layer 0 \
     --tune_type_connector full \
     --group_by_modality_length True \
-    --pretrained_model_path /mnt/data/sata/yinghu/checkpoints/llava_factory/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
-    --output_dir /mnt/data/sata/yinghu/checkpoints/llava_factory/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-finetune \
+    --pretrained_model_path /home/sihsch/tiny-LLaVA/checkpoints/llava_factory/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-pretrain \
+    --output_dir /home/sihsch/tiny-LLaVA/checkpoints/llava_factory/tiny-llava-${LLM_VARIANT}-${VT_VARIANT}-${VERSION}-finetune \
     --num_train_epochs 1 \
     --per_device_train_batch_size 8 \
     --per_device_eval_batch_size 4 \
