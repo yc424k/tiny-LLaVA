@@ -56,7 +56,7 @@ __pycache__
 .idea/*
 playground/
 wandb/*
-# checkpoints/*
+checkpoints/*
 .ipynb_checkpoints/*
 scripts/.ipynb_checkpoints/*
 test/*
