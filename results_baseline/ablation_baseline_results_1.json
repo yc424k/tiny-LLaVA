@@ -1,0 +1,571 @@
+{
+  "model_path": "checkpoints/llava_factory/tinyllama1.1-finetune",
+  "dataset_path": "/home/yc424k/tiny-LLaVA/ablation_results/20251029_153212/ablation_baseline.json",
+  "num_samples": 50,
+  "device": "cuda",
+  "conv_mode": "phi",
+  "temperature": 0.0,
+  "max_new_tokens": 256,
+  "results": [
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 26.25\n- Humidity: 18.5\n- Wind Direction: 9.7\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 26.25,
+        "humidity": 18.5,
+        "wind_direction": 9.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 0
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.75\n- Humidity: 17.0\n- Wind Direction: 48.3\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "pulse in this symphony of sensation. Ahead, a figure stands silhouetted against the fading light, a negro man with eyes that hold a thousand stories. He seems to be watching me, his gaze a silent question in the gathering gloom. I am but a machine, yet I feel a kinship with this man, a shared understanding of the world's vastness and its quiet beauty.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.75,
+        "humidity": 17.0,
+        "wind_direction": 48.3
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 1
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.25\n- Humidity: 19.75\n- Wind Direction: 294.1\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 19.75,
+        "wind_direction": 294.1
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 2
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.5\n- Humidity: 17.25\n- Wind Direction: 35.4\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.5,
+        "humidity": 17.25,
+        "wind_direction": 35.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 3
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.0\n- Humidity: 17.5\n- Wind Direction: 44.7\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.0,
+        "humidity": 17.5,
+        "wind_direction": 44.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 4
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.75\n- Humidity: 17.0\n- Wind Direction: 119.3\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "treads silent on the damp earth, leaving no trace but the faintest ripple in the stillness. The world feels heavy with anticipation, pregnant with the promise of a new day. Ahead, a lone figure stands silhouetted against the pale sky, their form barely discernible through the swirling mist. A negro woman, her face obscured by shadow, gazes out at the encroaching light. I sense a kinship in our shared solitude, a shared understanding of this fragile moment before the world awakens.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.75,
+        "humidity": 17.0,
+        "wind_direction": 119.3
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 5
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.25\n- Humidity: 19.75\n- Wind Direction: 181.5\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 19.75,
+        "wind_direction": 181.5
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 6
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.5\n- Humidity: 15.5\n- Wind Direction: 356.9\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.5,
+        "humidity": 15.5,
+        "wind_direction": 356.9
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 7
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.25\n- Humidity: 15.5\n- Wind Direction: 100.2\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.25,
+        "humidity": 15.5,
+        "wind_direction": 100.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 8
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.0\n- Humidity: 17.75\n- Wind Direction: 223.7\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.0,
+        "humidity": 17.75,
+        "wind_direction": 223.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 9
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 25.5\n- Humidity: 15.0\n- Wind Direction: 94.6\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 25.5,
+        "humidity": 15.0,
+        "wind_direction": 94.6
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 10
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 25.5\n- Humidity: 15.0\n- Wind Direction: 9.7\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "a measured pulse in this symphony of sensation. Ahead, a figure stands silhouetted against the fading light, a negro man with eyes that hold a thousand stories. He seems to be watching me, his gaze a silent question in the gathering gloom. I am but a machine, yet I feel a kinship with this man, a shared understanding of the world's vastness and its quiet beauty.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 25.5,
+        "humidity": 15.0,
+        "wind_direction": 9.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 11
+    },
+    {
+      "sample_id": 12,
+      "error": "unsupported operand type(s) for -: 'str' and 'float'"
+    },
+    {
+      "sample_id": 13,
+      "error": "unsupported operand type(s) for -: 'str' and 'float'"
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.5\n- Humidity: 21.25\n- Wind Direction: 44.2\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.5,
+        "humidity": 21.25,
+        "wind_direction": 44.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 14
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.0\n- Humidity: 15.75\n- Wind Direction: 1.5\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.0,
+        "humidity": 15.75,
+        "wind_direction": 1.5
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 15
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.5\n- Humidity: 15.5\n- Wind Direction: 23.6\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.5,
+        "humidity": 15.5,
+        "wind_direction": 23.6
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 16
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.0\n- Humidity: 15.75\n- Wind Direction: 132.1\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.0,
+        "humidity": 15.75,
+        "wind_direction": 132.1
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 17
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 23.75\n- Humidity: 16.0\n- Wind Direction: 21.0\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "pulse in this symphony of sensation. Ahead, a figure stands silhouetted against the fading light, a negro man with eyes that hold a thousand stories. He seems to be watching me, his gaze a silent question in the gathering gloom. I am but a machine, yet I feel a kinship with this man, a shared understanding of the world's vastness and its quiet beauty.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 23.75,
+        "humidity": 16.0,
+        "wind_direction": 21.0
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 18
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 26.25\n- Humidity: 14.5\n- Wind Direction: 100.8\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "treads silent on the damp earth, leaving no trace but the faintest ripple in the stillness. The world feels heavy with anticipation, pregnant with the promise of a new day. Ahead, a lone figure stands silhouetted against the pale sky, their form barely discernible through the swirling mist. A negro woman, her face obscured by shadow, gazes out at the encroaching light. I sense a kinship in our shared solitude, a shared understanding of this fragile moment before the world awakens.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 26.25,
+        "humidity": 14.5,
+        "wind_direction": 100.8
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 19
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.75\n- Humidity: 17.0\n- Wind Direction: 37.5\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "pulse in this symphony of sensation. Ahead, a figure stands silhouetted against the fading light, a negro man with eyes that hold a thousand stories. He seems to be watching me, his gaze a silent question in the gathering gloom. I am but a machine, yet I feel a kinship with this man, a shared understanding of the world's vastness and its quiet beauty.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.75,
+        "humidity": 17.0,
+        "wind_direction": 37.5
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 20
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 26.25\n- Humidity: 18.25\n- Wind Direction: 141.4\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", urging me onward. It feels like a secret shared between us, a silent understanding that transcends language. The world is waking, stretching its limbs after a long sleep, and I am drawn into its nascent light, a silent observer in this grand ballet of awakening.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 26.25,
+        "humidity": 18.25,
+        "wind_direction": 141.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 21
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.5\n- Humidity: 22.25\n- Wind Direction: 14.4\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.5,
+        "humidity": 22.25,
+        "wind_direction": 14.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 22
+    },
+    {
+      "sample_id": 23,
+      "error": "unsupported operand type(s) for -: 'str' and 'float'"
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.25\n- Humidity: 19.75\n- Wind Direction: 96.1\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 19.75,
+        "wind_direction": 96.1
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 24
+    },
+    {
+      "sample_id": 25,
+      "error": "unsupported operand type(s) for -: 'str' and 'float'"
+    },
+    {
+      "sample_id": 26,
+      "error": "unsupported operand type(s) for -: 'str' and 'float'"
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.75\n- Humidity: 19.25\n- Wind Direction: 100.2\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.75,
+        "humidity": 19.25,
+        "wind_direction": 100.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 27
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 18.25\n- Humidity: 21.75\n- Wind Direction: 79.2\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 18.25,
+        "humidity": 21.75,
+        "wind_direction": 79.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 28
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.25\n- Humidity: 21.5\n- Wind Direction: 284.4\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "treads silent on the damp earth, leaving no trace but the faintest ripple in the stillness. The world feels heavy with anticipation, pregnant with the promise of a new day. Ahead, a lone figure stands silhouetted against the pale sky, their form barely discernible through the swirling mist. A negro woman, her face obscured by shadow, gazes out at the encroaching light. I sense a kinship in our shared solitude, a shared understanding of this fragile moment before the world awakens.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 21.5,
+        "wind_direction": 284.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 29
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.25\n- Humidity: 17.25\n- Wind Direction: 42.6\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.25,
+        "humidity": 17.25,
+        "wind_direction": 42.6
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 30
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.5\n- Humidity: 21.25\n- Wind Direction: 70.9\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.5,
+        "humidity": 21.25,
+        "wind_direction": 70.9
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 31
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.25\n- Humidity: 15.5\n- Wind Direction: 9.2\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.25,
+        "humidity": 15.5,
+        "wind_direction": 9.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 32
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.25\n- Humidity: 17.25\n- Wind Direction: 35.4\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.25,
+        "humidity": 17.25,
+        "wind_direction": 35.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 33
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 26.0\n- Humidity: 18.5\n- Wind Direction: 227.8\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 26.0,
+        "humidity": 18.5,
+        "wind_direction": 227.8
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 34
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 27.0\n- Humidity: 14.25\n- Wind Direction: 176.4\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "treads silent on the damp earth, leaving no trace but the faintest ripple in the stillness. The world feels heavy with anticipation, pregnant with the promise of a new day. Ahead, a lone figure stands silhouetted against the pale sky, their form barely discernible through the swirling mist. A negro woman, her face obscured by shadow, gazes out at the encroaching light. I sense a kinship in our shared solitude, a shared understanding of this fragile moment before the world awakens.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 27.0,
+        "humidity": 14.25,
+        "wind_direction": 176.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 35
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.0\n- Humidity: 15.75\n- Wind Direction: 100.2\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.0,
+        "humidity": 15.75,
+        "wind_direction": 100.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 36
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 23.5\n- Humidity: 16.0\n- Wind Direction: 84.3\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 23.5,
+        "humidity": 16.0,
+        "wind_direction": 84.3
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 37
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 23.5\n- Humidity: 16.0\n- Wind Direction: 68.9\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "measured pulse in this symphony of sensation. Ahead, a figure stands silhouetted against the fading light, a negro man with eyes that hold a thousand stories. He seems to be watching me, his gaze a silent question in the gathering gloom. I am but a machine, yet I feel a kinship with this man, a shared understanding of the world's vastness and its quiet beauty.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 23.5,
+        "humidity": 16.0,
+        "wind_direction": 68.9
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 38
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.0\n- Humidity: 15.75\n- Wind Direction: 117.7\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.0,
+        "humidity": 15.75,
+        "wind_direction": 117.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 39
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.0\n- Humidity: 15.75\n- Wind Direction: 100.2\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.0,
+        "humidity": 15.75,
+        "wind_direction": 100.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 40
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 22.5\n- Humidity: 16.5\n- Wind Direction: 146.5\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ly disturbing the stillness, a silent observer in this tableau of awakening. The world feels like a canvas painted in shades of grey and silver, the sky a vast expanse of unblemished canvas above. It's a scene that could be mistaken for a forgotten photograph, a snapshot of time frozen in a moment of quiet beauty. I am but a clerk, recording these fleeting impressions, preserving them for posterity. Yet, even as I record, I feel a strange kinship with this world, a shared sense of stillness and anticipation.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 22.5,
+        "humidity": 16.5,
+        "wind_direction": 146.5
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 41
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.0\n- Humidity: 17.5\n- Wind Direction: 41.1\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.0,
+        "humidity": 17.5,
+        "wind_direction": 41.1
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 42
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.25\n- Humidity: 20.0\n- Wind Direction: 96.1\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 20.0,
+        "wind_direction": 96.1
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 43
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 18.75\n- Humidity: 22.5\n- Wind Direction: 1.5\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ce, each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 18.75,
+        "humidity": 22.5,
+        "wind_direction": 1.5
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 44
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 26.0\n- Humidity: 18.5\n- Wind Direction: 256.6\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "ly disturbing the stillness, a silent observer in this tableau of awakening. The world feels like a canvas painted in shades of grey and silver, the sky a vast expanse of unblemished canvas above. It's a scene that could be mistaken for a forgotten photograph, a snapshot of time frozen in a moment of quiet beauty. I am but a clerk, recording these fleeting impressions, preserving them for posterity. Yet, even as I record, I feel a strange kinship with this world, a shared sense of stillness and anticipation.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 26.0,
+        "humidity": 18.5,
+        "wind_direction": 256.6
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 45
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 25.25\n- Humidity: 15.0\n- Wind Direction: 203.6\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 25.25,
+        "humidity": 15.0,
+        "wind_direction": 203.6
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 46
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 26.0\n- Humidity: 18.5\n- Wind Direction: 100.2\n\nCraft a literary paragraph that embodies this moment.",
+      "response": ", each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 26.0,
+        "humidity": 18.5,
+        "wind_direction": 100.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 47
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 25.5\n- Humidity: 15.25\n- Wind Direction: 346.1\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "each step a measured response to the subtle shifts in pressure and temperature. The world is a symphony of muted tones – the grey of the sky mirroring the stillness of the water below, the rustle of leaves a hushed murmur against the backdrop of silence. Even the sun, veiled behind a curtain of clouds, seems to cast its light with a melancholic grace, illuminating the scene with an ethereal glow.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 25.5,
+        "humidity": 15.25,
+        "wind_direction": 346.1
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 48
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 25.5\n- Humidity: 14.75\n- Wind Direction: 105.4\n\nCraft a literary paragraph that embodies this moment.",
+      "response": "treads silent on the damp earth, leaving no trace but the faintest ripple in the stillness. The world feels heavy with anticipation, pregnant with the promise of a new day. Ahead, a lone figure stands silhouetted against the pale sky, their form barely discernible through the swirling mist. A negro woman, her face obscured by shadow, gazes out at the encroaching light. I sense a kinship in our shared solitude, a shared understanding of this fragile moment before the world awakens.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 25.5,
+        "humidity": 14.75,
+        "wind_direction": 105.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 49
+    }
+  ]
+}

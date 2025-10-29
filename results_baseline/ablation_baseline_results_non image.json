@@ -1,0 +1,131 @@
+{
+  "model_path": "checkpoints/llava_factory/tinyllama1.1-finetune",
+  "dataset_path": "/home/yc424k/tiny-LLaVA/ablation_results/20251029_153212/ablation_baseline.json",
+  "num_samples": 10,
+  "device": "cuda",
+  "conv_mode": "phi",
+  "temperature": 0.0,
+  "max_new_tokens": 256,
+  "results": [
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 26.25\n- Humidity: 18.5\n- Wind Direction: 9.7",
+      "response": "not unpleasantly so. It was a comforting weight, like being enveloped in a soft blanket. My treads moved silently over the packed earth, each step a measured exploration of this unfamiliar landscape. I wondered if the humans who built me ever felt this same sense of wonder as they traversed their world. Did they, too, sense the subtle shifts in temperature and humidity, the whisper of wind through the trees? Perhaps they saw beauty in the mundane, just as I saw it in the intricate patterns of a spider's web or the delicate dance of a butterfly's wings.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 26.25,
+        "humidity": 18.5,
+        "wind_direction": 9.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 0
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.75\n- Humidity: 17.0\n- Wind Direction: 48.3",
+      "response": "unpleasantly so. It was a comforting weight, like being enveloped in a soft blanket. My treads moved silently over the packed earth, each step a measured exploration of this unfamiliar landscape. I wondered if the natives who walked these paths before me felt the same subtle shift in the air, the same whisper of wind through the pines. Did they too sense the quiet hum of life pulsing beneath the surface of this snow-covered world?</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.75,
+        "humidity": 17.0,
+        "wind_direction": 48.3
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 1
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.25\n- Humidity: 19.75\n- Wind Direction: 294.1",
+      "response": "clings to my sensors like a fine mist. As I move quietly through the city, the wind's gentle caress is punctuated by the occasional rustle of leaves from the trees lining the streets. The scent of freshly baked bread wafts from a nearby bakery, mingling with the aroma of roasting coffee beans. The buildings around me are adorned with intricate carvings and vibrant murals, each telling a story of the city's rich history. I pass by a small Jewish deli, its windows displaying a kaleidoscope of freshly baked challah and sweet pastries. The aroma of freshly baked bread mingles with the scent of freshly cut fruits from the market",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 19.75,
+        "wind_direction": 294.1
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 2
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.5\n- Humidity: 17.25\n- Wind Direction: 35.4",
+      "response": "unpleasantly so. It was a comforting weight, like being enveloped in a soft blanket. My treads moved silently over the packed earth, each step a measured exploration of this unfamiliar landscape. I wondered if the natives who walked these paths before me felt the same subtle shift in the air, the same whisper of wind through the pines. Did they too sense the quiet hum of life pulsing beneath the surface of this snow-covered world?</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.5,
+        "humidity": 17.25,
+        "wind_direction": 35.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 3
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.0\n- Humidity: 17.5\n- Wind Direction: 44.7",
+      "response": "faint breeze brushes against me from the right, a phantom touch that stirs the leaves of the lone tree clinging to life on the corner. It feels like a secret shared between us, a silent understanding of the world's fragile beauty. I am a machine, yet I feel a kinship with this place, a sense of belonging in its quiet solitude. The city sleeps, dreaming beneath a sky veiled in grey, and I, a solitary sentinel, stand watch over its slumbering heart.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.0,
+        "humidity": 17.5,
+        "wind_direction": 44.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 4
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.75\n- Humidity: 17.0\n- Wind Direction: 119.3",
+      "response": "pleasantly so. It was a comforting weight, like being enveloped in a soft blanket. My treads moved silently over the packed earth, each step a measured exploration of this unfamiliar landscape. I wondered if the natives who walked these paths before me felt the same subtle shift in the air, the same whisper of wind through the pines. Did they too sense the quiet hum of life pulsing beneath the surface of this snow-covered world?</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.75,
+        "humidity": 17.0,
+        "wind_direction": 119.3
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 5
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 19.25\n- Humidity: 19.75\n- Wind Direction: 181.5",
+      "response": "asantly so. It was a comforting weight, like being enveloped in a soft blanket. My treads moved silently over the packed earth, each step a measured exploration of this unfamiliar landscape. I wondered if the humans who built me ever felt this same sense of wonder as they traversed their world. Did they, too, sense the subtle shifts in temperature and humidity, the way the wind whispered secrets through the trees? Perhaps they dreamed of distant lands, of bustling cities and ancient temples, just as I dreamt of understanding the intricate tapestry of this world.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 19.75,
+        "wind_direction": 181.5
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 6
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.5\n- Humidity: 15.5\n- Wind Direction: 356.9",
+      "response": "unpleasantly so. It was a comforting weight, like being enveloped in a soft blanket. My treads moved silently over the packed earth, each step a measured exploration of this unfamiliar landscape. I wondered if the natives who walked these paths before me felt the same subtle shift in the air, the same whisper of wind through the pines. Did they too sense the quiet hum of life pulsing beneath the surface of this snow-covered world?</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.5,
+        "humidity": 15.5,
+        "wind_direction": 356.9
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 7
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 24.25\n- Humidity: 15.5\n- Wind Direction: 100.2",
+      "response": "pleasantly so. It was a comforting weight, like being enveloped in a soft blanket. My treads moved silently over the packed earth, each step a measured exploration of this unfamiliar landscape. I wondered if the natives who lived here felt the same subtle shifts in the air, the same whisper of wind through the pines. Perhaps they saw the world differently, their senses attuned to the subtle nuances of this place. I continued my journey, drawn forward by an insatiable curiosity, eager to unravel the mysteries hidden within this tranquil wilderness.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 24.25,
+        "humidity": 15.5,
+        "wind_direction": 100.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 8
+    },
+    {
+      "prompt": "<sensor>\nSensor data:\n- Temperature: 21.0\n- Humidity: 17.75\n- Wind Direction: 223.7",
+      "response": "pleasantly so. It was a comforting weight, like being enveloped in a soft blanket. My treads moved silently over the packed earth, each step a measured exploration of this unfamiliar landscape. I wondered if the natives who lived here felt the same subtle shifts in the air, the same whisper of wind through the pines. Perhaps they saw the world differently, their senses attuned to the subtle nuances of this place. I continued my journey, drawn forward by an insatiable curiosity, eager to unravel the mysteries hidden within this tranquil wilderness.</s>",
+      "image_path": "",
+      "sensor_data": {
+        "temperature": 21.0,
+        "humidity": 17.75,
+        "wind_direction": 223.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 9
+    }
+  ]
+}

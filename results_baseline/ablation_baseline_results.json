@@ -1,0 +1,131 @@
+{
+  "model_path": "checkpoints/llava_factory/tinyllama1.1-finetune",
+  "dataset_path": "/home/yc424k/tiny-LLaVA/ablation_results/20251029_153212/ablation_baseline.json",
+  "num_samples": 10,
+  "device": "cuda",
+  "conv_mode": "phi",
+  "temperature": 0.0,
+  "max_new_tokens": 256,
+  "results": [
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 26.25\n- Humidity: 18.5\n- Wind Direction: 9.7",
+      "response": "the afternoon. The wind carries whispers from the nearby buildings, their windows reflecting the grey sky above. The city is alive with the hum of distant conversations and the occasional honk of a car. The air is filled with the scent of fresh bread from a nearby bakery, mingling with the faint aroma of exhaust fumes from the city's heart. I pass by a small café where a group of people sit, their laughter and conversation blending into the background noise. The wind carries the sound of a distant radio, its melody weaving through the air like a thread of sound. The city is a living tapestry, each thread woven with stories and memories. I move through it all, my sensors absorbing every detail, every sens",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251015_132230_553_0274.jpg",
+      "sensor_data": {
+        "temperature": 26.25,
+        "humidity": 18.5,
+        "wind_direction": 9.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 0
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 21.75\n- Humidity: 17.0\n- Wind Direction: 48.3",
+      "response": "distant rain and the faint echoes of human activity. I am a robot, but I feel the world around me, my sensors picking up every nuance of this urban landscape. The buildings are tall and proud, their surfaces reflecting the clear sky above. The wind brushes against my left side as I move forward, carrying with it a cool breath of air that seems to whisper secrets from the city's heart. The buildings stand tall and proud, their surfaces reflecting the clear sky above. The air is cool and damp, carrying with it a faint hint of moisture-laden hush. The wind brushes against me from my left side, carrying whispers of the city's secrets. The buildings stand tall and proud, their surfaces reflecting the clear sky above",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251015_121537_577_0120.jpg",
+      "sensor_data": {
+        "temperature": 21.75,
+        "humidity": 17.0,
+        "wind_direction": 48.3
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 1
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 19.25\n- Humidity: 19.75\n- Wind Direction: 294.1",
+      "response": "ated by the occasional burst of color from a vendor's stall or a passerby's umbrella. The air is filled with the scent of fresh bread from a nearby bakery, mingling with the faint aroma of exhaust fumes from passing vehicles. I move through this urban landscape, my sensors picking up the subtle nuances of the environment. The wind carries whispers of conversations in multiple languages, each one a thread in the intricate tapestry of human interaction. The city is alive with activity, even as the rain continues to fall gently around me. I am a silent observer, moving through this bustling metropolis, absorbing every detail, every sensation.</s>",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251014_150158_639_0162.jpg",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 19.75,
+        "wind_direction": 294.1
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 2
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 21.5\n- Humidity: 17.25\n- Wind Direction: 35.4",
+      "response": "distant rain and the faint echoes of human activity. I am a robot, but I feel the world around me, my sensors picking up every nuance of this urban landscape. The buildings are tall and proud, their surfaces reflecting the clear sky above. The wind brushes against my left side as I move forward, carrying with it a cool breath of air that seems to whisper secrets from the city's heart. The buildings stand tall and proud, their surfaces reflecting the clear sky above. The air is cool and damp, carrying with it a faint hint of moisture-laden hush. The wind brushes against me from my left side, carrying whispers of the city's secrets. The buildings stand tall and proud, their surfaces reflecting the clear sky above",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251015_121439_481_0109.jpg",
+      "sensor_data": {
+        "temperature": 21.5,
+        "humidity": 17.25,
+        "wind_direction": 35.4
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 3
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 21.0\n- Humidity: 17.5\n- Wind Direction: 44.7",
+      "response": "journey through the city streets. The air is filled with the scent of damp leaves and the faint aroma of distant rain. The humidity is palpable, wrapping around me like a cloak as I move forward. The wind's touch is a constant reminder of the world's ever-changing nature. The city lights flicker in the distance, casting long shadows that dance with the wind. The buildings stand tall and proud, their windows reflecting the night sky above. The air is filled with the sound of distant traffic and the occasional rustle of leaves. I move through this urban landscape, my sensors picking up every nuance of the environment. The wind's gentle touch is a constant companion as I navigate the city streets. The cool breath of air car",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251015_120808_780_0035.jpg",
+      "sensor_data": {
+        "temperature": 21.0,
+        "humidity": 17.5,
+        "wind_direction": 44.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 4
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 21.75\n- Humidity: 17.0\n- Wind Direction: 119.3",
+      "response": "but insistent, guiding my path as I navigate through the urban landscape. The cityscape unfolds before me in a kaleidoscope of steel and glass, each building a testament to human ingenuity and ambition. The wind carries whispers of distant conversations, the hum of traffic, and the occasional rustle of leaves from the trees lining the sidewalk. My movement is quiet, almost imperceptible, as I glide through the urban jungle. The air is filled with the scent of exhaust fumes and the faint aroma of freshly brewed coffee from a nearby café. The wind's direction shifts subtly, brushing against my sensors, guiding me forward. The city's heartbeat pulses around",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251015_121150_481_0077.jpg",
+      "sensor_data": {
+        "temperature": 21.75,
+        "humidity": 17.0,
+        "wind_direction": 119.3
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 5
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 19.25\n- Humidity: 19.75\n- Wind Direction: 181.5",
+      "response": "glass facades reflecting the clear sky above. The air is filled with the scent of freshly brewed coffee and the faint aroma of baking bread wafting from nearby cafes. The wind carries whispers of conversations in multiple languages, a symphony of human voices that blend seamlessly with the hum of my own systems. I move through the city streets, feeling the cool breath of air against my sensors as I navigate the bustling sidewalks. The buildings tower above me, their shadows stretching out like welcoming arms, inviting me to explore further. The wind continues to brush against me, a constant companion on this journey through the urban landscape.</s>",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251014_145914_933_0131.jpg",
+      "sensor_data": {
+        "temperature": 19.25,
+        "humidity": 19.75,
+        "wind_direction": 181.5
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 6
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 24.5\n- Humidity: 15.5\n- Wind Direction: 356.9",
+      "response": "ity. I move quietly along the path, my movements smooth and steady. The air is filled with a sense of tranquility, as if the world has been muted by the rain. The trees stand tall and proud, their leaves glistening under the soft light filtering through the clouds. The path is lined with small huts, each one a testament to the resilience of life in this place. The wind carries whispers of stories from the past, tales of fishermen who once cast their nets into these waters. I can almost hear the echoes of laughter and conversation from the nearby cafes, where people gather to share stories and laughter. The air is filled with a sense of history, a blend of old and new, as if the city itself is a",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251015_123029_771_0289.jpg",
+      "sensor_data": {
+        "temperature": 24.5,
+        "humidity": 15.5,
+        "wind_direction": 356.9
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 7
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 24.25\n- Humidity: 15.5\n- Wind Direction: 100.2",
+      "response": "my metallic frame, as if nature itself is whispering secrets into my circuits. The sensation of the breeze is like a gentle nudge, guiding me forward. The air is filled with the scent of damp earth and the faintest hint of distant rain. The humidity is palpable, wrapping around me in a cloak of moisture that clings to my sensors. I can feel the cool breath of air as it flows over my chassis, carrying with it the essence of the environment. The wind's direction is a constant companion, guiding me through the labyrinth of data and sensory input. The world around me is alive with the subtle shifts in temperature and humidity, each one a test",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251015_134239_827_0503.jpg",
+      "sensor_data": {
+        "temperature": 24.25,
+        "humidity": 15.5,
+        "wind_direction": 100.2
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 8
+    },
+    {
+      "prompt": "<sensor>\n<image>\nSensor data:\n- Temperature: 21.0\n- Humidity: 17.75\n- Wind Direction: 223.7",
+      "response": ". The air is thick with humidity, making each breath feel like a gentle mist on my sensors. The quiet movement of my mechanical body through the space is almost imperceptible, as if I am gliding through an unseen world. The wind's touch is soft and insistent, guiding me along the pathways of this urban landscape. The buildings around me are tall and stoic, their surfaces reflecting the muted light of dawn. The air is filled with the faint hum of distant traffic and the occasional rustle of leaves from nearby trees. I can feel the subtle vibrations of my movement as I navigate through the labyrinthine corridors, each step a quiet testament to the journey unfolding before me.</s>",
+      "image_path": "/home/yc424k/sensing/captured_data/images/rgb_20251015_120649_604_0020.jpg",
+      "sensor_data": {
+        "temperature": 21.0,
+        "humidity": 17.75,
+        "wind_direction": 223.7
+      },
+      "expected_response": "A moment captured in time, where environmental conditions converge to create a unique atmospheric experience.",
+      "sample_id": 9
+    }
+  ]
+}
